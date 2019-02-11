@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>YelpCamp</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+     <link rel="icon" href="/images/favicon.ico" />
+    <link rel="stylesheet" href="/stylesheets/main.css">
+  </head>
+  <body>
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">YelpCamp</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/">Login</a></li>
+            <li><a href="/">Sign Up</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav> -->
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+      <h5 class="my-0 mr-md-auto font-weight-normal"><a href="/">YelpCamp</a></h5>
+     <%  if(!currentUser){ %>
+        <nav class="my-2 my-md-0 mr-md-3">
+          <a class="p-2 text-dark" href="/login">Login</a>
+        </nav>
+        <nav class="my-2 my-md-0 mr-md-3">
+          <a class="p-2 text-dark" href="/register">SignUp</a>
+        </nav>
+      <% }else{ %>
+        <nav class="my-2 my-md-0 mr-md-3">
+          <a href="#"><%= currentUser.username.toUpperCase()%></a>
+          <a class="p-2 text-dark" href="/logout">Logout</a>
+        </nav>
+      <% } %>
+    </div>
+    <% if(error && error.length >0){ %>
+        <div class="container">
+          <div class="alert alert-danger" role="alert"><%= error %></div>
+        </div>
+    <%  }  %>
+    <% if(success && success.length >0){ %>
+        <div class="container">
+          <div class="alert alert-success" role="alert"> <%=success %></div>
+        </div>
+    <%  }  %>
