@@ -3,6 +3,7 @@ var express = require("express")
 var router = express.Router({mergeParams:true})
 var Campground = require("../models/campground")
 var middleware = require("../middleware")
+var expressSanitizer = require("express-sanitizer")
 
 router.get("/campgrounds",function(req,res){
   Campground.find({},function(err,allCampgrounds){
@@ -52,25 +53,38 @@ router.get("/campgrounds/:id",function(req,res){
 //edit campgrounds
 router.get("/campgrounds/:id/edit",middleware.checkCampgroundOwnership,function(req,res){
   Campground.findById(req.params.id,function(err,foundCampground){
+    if(err){
+      res.redirect("/campgrounds")
+    }else{
       res.render("campgrounds/edit",{campground:foundCampground})
-    })
+    }
+  })
 })
 //update
 router.put("/campgrounds/:id",middleware.checkCampgroundOwnership,function(req,res){
-  Campground.findById(req.params.id,function(err,foundCampground){
-    if(err || !foundCampground){
-      req.flash("error","Campground not found!!")
-      res.redirect("/campgrounds")
-    }else{
-      Campground.updateOne(req.body.campground,function(err,updatedCampground){
-        if(err){
-          res.redirect("/campgrounds")
-        }else{
-          res.redirect( "/campgrounds/" + req.params.id)
-        }
-      })
-    }
-  })
+  // Campground.findById(req.params.id,function(err,foundCampground){
+  //   if(err || !foundCampground){
+  //     req.flash("error","Campground not found!!")
+  //     res.redirect("/campgrounds")
+  //   }else{
+  //     Campground.updateOne(req.body.campground,function(err,updatedCampground){
+  //       if(err){
+  //         res.redirect("/campgrounds")
+  //       }else{
+  //         res.redirect( "/campgrounds/" + req.params.id)
+  //       }
+  //     })
+  //   }
+  // })
+  req.body.campground.body = req.sanitize(req.body.campground.body)
+  Campground.findByIdAndUpdate(req.params.id,req.body.campground,function(err,updatedCampground){
+    if(err || !updatedCampground){
+         req.flash("error","Campground not found!!")
+         res.redirect("/campgrounds")
+       }else{
+         res.redirect("/campgrounds/" + req.params.id)
+   }
+ })
 
 })
 
