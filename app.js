@@ -18,7 +18,7 @@ var campgroundRoutes = require("./routes/campgrounds"),
 
 
 // seedDB()
-mongoose.connect("mongodb://localhost/yelp_camp_v3",{useNewUrlParser: true})
+mongoose.connect("mongodb://sahilp123:sahil123@mycluster0-shard-00-00-b1yh9.mongodb.net:27017,mycluster0-shard-00-01-b1yh9.mongodb.net:27017,mycluster0-shard-00-02-b1yh9.mongodb.net:27017/test?ssl=true&replicaSet=MyCluster0-shard-0&authSource=admin&retryWrites=true",{useNewUrlParser: true})
 app.use(bodyParser.urlencoded({extended:true}))
 app.set("view engine","ejs")
 app.use(express.static(__dirname + "/public"))
@@ -49,6 +49,6 @@ passport.deserializeUser(User.deserializeUser())
 
 
 
-app.listen(5000,process.env.IP,function(){
+app.listen(process.env.PORT,process.env.IP,function(){
   console.log("YelpCamp Server has Started!!!")
 })
