@@ -47,6 +47,10 @@ passport.use(User.createStrategy())
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
+app.get("*",function(req,res){
+  req.flash("error","ARE YOU LOST!!")
+  res.redirect("back")
+})
 
 
 app.listen(process.env.PORT,process.env.IP,function(){
